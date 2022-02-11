@@ -1,0 +1,138 @@
+
+use('home_mongo');
+
+// db.users.insertOne({})
+
+// db.users.find() 
+
+// db.users.insertMany([{test:true},{test:'test'},{}])
+
+// db.users.drop()
+
+// db.inventory.insertMany([
+//    { item: "journal", qty: 25, size: { h: 14, w: 21, uom: "cm" }, status: "A" },
+//    { item: "notebook", qty: 50, size: { h: 8.5, w: 11, uom: "in" }, status: "A" },
+//    { item: "paper", qty: 100, size: { h: 8.5, w: 11, uom: "in" }, status: "D" },
+//    { item: "planner", qty: 75, size: { h: 22.85, w: 30, uom: "cm" }, status: "D" },
+//    { item: "postcard", qty: 45, size: { h: 10, w: 15.25, uom: "cm" }, status: "A" }
+// ])
+
+// db.inventory.find({status: 'A', qty:{$lt:45 }})
+// db.inventory.find({'size.w':{$gt:20}})
+//  db.inventory.find({$or: [{'size.w':{$gt:20}}, {'size.h':{$lt:15}}]})
+//  db.inventory.find({status:{$exists: true}})
+// db.inventory.find({'size':{$type: 'object'}})
+// db.inventory.insertMany([{qty: 200, status: 'B'}, {item: 'cup', status: 'C'}, {item: 'cup', qty: 32,}])
+// db.inventory.find({status:{$exists: true, $in: ['A', 'C']}})
+// db.inventory.find({$or: [{'size.h':{$gt: 20}}, {status: 'D'}]})
+
+//  db.inventory.updateMany({status: 'A'},{$set: {'size.h': 30, 'size.w': 10}})
+// db.inventory.deleteMany({$and: [{qty: 32}, {status:{$exists: false}}]})
+// db.createCollection("users", {
+//     validator: {
+//         $jsonSchema: {
+//             bsonType: 'object',
+//             required: ['name', 'age', 'isMale', 'interes'],
+//             properties: {
+//                 name: {
+//                     bsonType: 'string',
+//                     description: 'must be a string'
+//                 },
+//                  age: {
+//                     bsonType: 'int',
+//                     description: 'must be a number'
+//                 },
+//                    isMale: {
+//                     bsonType: 'bool',
+//                 },
+//                      interes: {
+//                     bsonType: 'object',
+//                     required: ['sport', 'books'],
+//                     properties: {
+//                         sport: {
+//                            bsonType: 'string',
+//                            description: 'must be a string'
+//                         },
+//                          books: {
+//                            enum: ['game of throne', 'emty spase', 'light'],
+//                            description: 'must be one of this'
+//                         }
+//                     }
+//                 },
+                
+//             }
+//         }
+//     }
+// })
+
+
+// db.users.insert({name: 'Bill', age: 20, isMale: true, interes: {sport: 'baseball', books: 'game of throne'}})
+// db.users.find()
+
+// db.createCollection("params", {
+//     validator: {
+//         $jsonSchema: {
+//             bsonType: "object",
+//             required: ["height", "weight", "typeHear", "userId"],
+//             properties: {
+//                 height:{
+//                     bsonType: 'number',
+//                     description: 'must be a number'
+//                 },
+//                  weight:{
+//                     bsonType: 'number',
+//                     description: 'must be a number'
+//                 },
+//                   typeHear:{
+//                     bsonType: 'string',
+//                     description: 'must be a string'
+//                 },
+//                 userId: {
+//                     bsonType: 'objectId'
+//                 }
+//             }
+//         }
+//     }
+// })
+
+// db.params.drop()
+
+// db.params.insertMany([
+//     {height: 1.65, weight: 20, typeHear: 'gray', userId: new ObjectId('620581bb524af7af0e295d79')},
+//     {height: 2.65, weight: 50, typeHear: 'gray', userId: new ObjectId('62059161ccea8b5187b817dd')},
+//     {height: 3.95, weight: 10, typeHear: 'black', userId: new ObjectId('620581bb524af7af0e295d79')}])
+
+
+// db.params.aggregate([{
+//      $lookup: {
+//       from: 'users',
+//       localField: 'userId',
+//       foreignField: '_id',
+//       as: 'user'
+//     }}, {
+//         $unwind: '$user'
+//     },
+//      {
+//         $unset: 'user._id' 
+//      },
+     
+//     ])
+
+// db.params.aggregate([{
+//      $group: {
+//       _id: '$userId',
+//       countPosition: {
+//           $sum: 1
+//       }
+//     }
+// }])
+
+// db.params.aggregate([{
+//     $sort: {
+//         "height": -1
+//     },
+        
+// }, {
+
+//     $limit: 1
+// }])  
