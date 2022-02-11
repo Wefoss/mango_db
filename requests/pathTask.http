@@ -1,6 +1,11 @@
-PATCH  http://localhost:3000/6200dea96c6e373c04b21519 HTTP/1.1
+PATCH  http://localhost:3000/62058785a009861f945fe87b HTTP/1.1
 Content-Type: application/json
 
 {
-  "description": "My Updata tasksssNew"
+  "description": "My Updata tasksssNew",
+   "author": {
+    "name": "Bill",
+    "email": "ddsdfsdf@ssddddfs.com",
+    "age": -150
+  }
 }

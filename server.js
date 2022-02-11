@@ -2,8 +2,6 @@ const http = require('http')
 const express = require('express')
 const yup = require('yup')
 const mongoose = require('mongoose');
-const { async } = require('regenerator-runtime');
-const { version } = require('process');
 const { Schema } = mongoose;
 
 
@@ -13,7 +11,9 @@ const chema = yup.string().email().required()
 
 
 const tasksSchema = new Schema({
-  description: {type: String, required:[true, 'must be']},
+  description: {type: String, required:[true, 'must be'], validate: {
+    validator: (v) => /[A-Z][a-z\s!]{5,200}/.test(v)
+  }},
   idDone: {type: Boolean, default: false},
   dateAt: { type: Date, default: Date.now },
   author: {
@@ -21,8 +21,10 @@ const tasksSchema = new Schema({
     email: {type: String, required: true, validate: {
       validator: (v) => chema.isValid(v)
     }},
-    age: {type: Number, default: null}
-  }
+    age: {type: Number, default: null, validate: {
+      validator: (v) => v<0?0:v
+    }}  
+  }  
 }, {versionKey: false,
    timestamps: true    
 })
@@ -107,9 +109,7 @@ app.post('/:taskId/comments', async (req, res, next) => {
  
 app.get('/comments', async (req, res, next) => {
   try {
-      Comment.find()
-      .populate('task')
-      .exec((err, comments) => {
+      Comment.find().populate('task').exec((err, comments) => {
        if(err) {
          throw new Error('some went wrong')
        }
