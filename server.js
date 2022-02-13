@@ -3,9 +3,11 @@ const express = require('express')
 const yup = require('yup')
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
+const hostName = 'home_mongo'
 
 
-mongoose.connect('mongodb://localhost:27017/fm_mongoose').catch(error => console.log(error));
+mongoose.connect(`mongodb://${hostName}:27017/fm_mongoose`)
+.catch(error => {console.log(error), process.exit(0)});
 
 const chema = yup.string().email().required()
 
@@ -41,8 +43,8 @@ const Comment = mongoose.model('Comment', commentSchema);
 
 
 
-const PORT = process.env.PORT || 3000
-
+const PORT = process.env.PORT || 8080
+console.log(PORT);
 const app = express()
 app.use(express.json())
 app.post('/', async (req, res ,next) => {

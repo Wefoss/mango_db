@@ -1,0 +1,28 @@
+version: '3.8'
+services:
+  backend-app:
+    build:
+     context: ./
+     dockerfile: Dockerfile
+    ports:
+      - "3005:3000"
+    environment:
+      PORT: 3000
+    volumes:
+      - ./:/server:ro
+    depends_on:
+      - home_mongo
+    networks:
+      - net1  
+
+  home_mongo:
+    image: mongo:4
+    restart: always
+    networks:
+      - net1 
+    volumes: 
+      - /home/wefoss/mongodb/database/:/data/db  
+
+networks:
+  net1:
+   name: qwerty     
